@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Experiências Memoráveis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,0..100;1,9..144,300..700,0..100&family=Instrument+Sans:wght@400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --carvao:#16120e; --carvao2:#211a14; --papel:#efe6d6; --papel2:#e4d6bf; --tinta:#2a2119; --tinta2:#6b5a49;
+  --terracota:#b5532f; --musgo:#5f6b3a; --ambar:#e3a548; --ambar2:#f3c77a;
+  --e1:#b5532f; --e2:#7a3b52; --e3:#d9952f; --e4:#2f5d62; --e5:#6b7a3a; --e6:#4a5566; --e7:#a8782a; --e8:#c07a6a;
+  --serif:'Fraunces',Georgia,serif; --sans:'Instrument Sans',system-ui,sans-serif; --mao:'Caveat',cursive;
+  --resp:cubic-bezier(.45,.05,.25,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--carvao);color:var(--tinta);font-family:var(--sans)}
+body{cursor:default}
+body.hide-cursor{cursor:none}
+.grao{position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.16;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.papel{background-color:var(--papel);
+  background-image:
+   radial-gradient(120% 90% at 30% 20%, rgba(255,255,255,.35), transparent 60%),
+   radial-gradient(90% 70% at 85% 90%, rgba(120,80,40,.10), transparent 70%),
+   url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.012 .35' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 .45  0 0 0 0 .33  0 0 0 0 .2  0 0 0 .10 0'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>")}
+.escuro{background:radial-gradient(120% 100% at 50% 40%, var(--carvao2), var(--carvao) 70%)}
+#deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity 1.6s var(--resp),visibility 0s linear 1.6s;overflow:hidden}
+.slide.on{opacity:1;visibility:visible;transition:opacity 1.6s var(--resp),visibility 0s}
+.cx{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 8vw}
+.kicker{font-family:var(--sans);font-size:clamp(11px,.9vw,15px);letter-spacing:.32em;text-transform:uppercase;color:var(--tinta2)}
+.t-xl{font-family:var(--serif);font-weight:350;font-size:clamp(34px,5.4vw,96px);line-height:1.04;letter-spacing:-.015em;font-variation-settings:"SOFT" 100,"opsz" 144}
+.t-l{font-family:var(--serif);font-weight:380;font-size:clamp(26px,3.4vw,60px);line-height:1.1;letter-spacing:-.01em;font-variation-settings:"SOFT" 100,"opsz" 120}
+.t-m{font-family:var(--serif);font-weight:400;font-size:clamp(18px,1.7vw,30px);line-height:1.3;font-variation-settings:"SOFT" 80}
+.t-s{font-family:var(--sans);font-size:clamp(13px,1.05vw,18px);line-height:1.5;color:var(--tinta2)}
+.mao{font-family:var(--mao);font-weight:500}
+em{font-style:italic}
+.surge{opacity:0;transform:translateY(18px);filter:blur(6px);transition:opacity 1.8s var(--resp),transform 1.8s var(--resp),filter 1.8s var(--resp)}
+.vis{opacity:1;transform:none;filter:none}
+
+/* 1 abertura */
+#s-abre{color:var(--papel)}
+#s-abre .luz{position:absolute;left:50%;top:46%;width:6vmin;height:6vmin;margin:-3vmin;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,232,185,.95) 0%,rgba(243,190,105,.6) 22%,rgba(227,165,72,.22) 45%,rgba(227,165,72,.06) 60%,rgba(227,165,72,0) 70%);
+  filter:blur(1px);animation:respira 5s ease-in-out infinite;transition:width 6s var(--resp),height 6s var(--resp),margin 6s var(--resp),top 3s var(--resp)}
+@keyframes respira{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+#s-abre.s1 .luz{width:24vmin;height:24vmin;margin:-12vmin}
+#s-abre.s2 .luz{width:80vmin;height:80vmin;margin:-40vmin}
+#s-abre.s3 .luz{top:30%}
+#s-abre .papelfundo{position:absolute;inset:0;opacity:0;transition:opacity 8s var(--resp);mix-blend-mode:soft-light}
+#s-abre.s2 .papelfundo{opacity:.35}
+#s-abre .frase{position:absolute;left:0;right:0;text-align:center;padding:0 6vw}
+#s-abre .f1{top:52%;font-size:clamp(40px,5.6vw,104px);color:var(--ambar2)}
+#s-abre .f2{top:70%;font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(18px,1.8vw,32px);color:rgba(239,230,214,.75)}
+#s-abre .f3{top:68%}
+#s-abre .letra{opacity:0;display:inline-block;transition:opacity .5s ease}
+#s-abre .letra.vis{opacity:1}
+
+/* 2 virada */
+#s-vira{background:#cfcfcf}
+.corp{position:absolute;inset:0;background:#f4f6f9;font-family:Arial,Helvetica,sans-serif;color:#1d2b4f;transition:filter 10s linear}
+.slide.on .corp{filter:saturate(0) contrast(.75) brightness(.92)}
+.corp .topo{height:13%;background:linear-gradient(90deg,#1f4e9c,#3f7fd8);display:flex;align-items:center;padding:0 5%;color:#fff;font-size:2.3vw;font-weight:bold}
+.corp .sub{padding:2.2% 5% 0;font-size:1.3vw;color:#5b6b8c}
+.corp ul{padding:2% 5% 0 8%;font-size:1.65vw;line-height:2.1}
+.corp li::marker{color:#3f7fd8}
+.corp .icones{position:absolute;right:6%;top:30%;display:grid;grid-template-columns:repeat(2,7vw);gap:1.4vw}
+.corp .icones div{height:7vw;border:2px solid #3f7fd8;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:2.6vw;color:#3f7fd8}
+.corp .rod{position:absolute;bottom:3%;left:5%;right:5%;display:flex;justify-content:space-between;font-size:.95vw;color:#8a97b3;border-top:1px solid #c9d3e6;padding-top:.8%}
+.metade{position:absolute;inset:0;transition:transform 2.4s cubic-bezier(.7,0,.2,1),opacity 2.4s ease}
+.metade.esq{clip-path:polygon(0 0,52% 0,49% 8%,53% 15%,48% 24%,52% 31%,49% 40%,54% 48%,48% 57%,52% 64%,47% 73%,53% 81%,49% 90%,51% 100%,0 100%)}
+.metade.dir{clip-path:polygon(52% 0,100% 0,100% 100%,51% 100%,49% 90%,53% 81%,47% 73%,52% 64%,48% 57%,54% 48%,49% 40%,52% 31%,48% 24%,53% 15%,49% 8%)}
+#s-vira.s1 .metade.esq{transform:translateX(-62%) rotate(-5deg);opacity:.0}
+#s-vira.s1 .metade.dir{transform:translateX(62%) rotate(4deg);opacity:.0}
+#s-vira .atras{position:absolute;inset:0}
+#s-vira .atras .cx{align-items:flex-start}
+#s-vira .l1{max-width:15ch}
+#s-vira .l2{margin-top:3vh;font-size:clamp(40px,4.8vw,88px);color:var(--terracota);line-height:1.05}
+#s-vira .l3{margin-top:5vh;max-width:46ch}
+
+/* 3 lema */
+#s-lema .cx{align-items:flex-start}
+#s-lema .lema{font-size:clamp(56px,8.2vw,150px);color:var(--terracota);line-height:.95;clip-path:inset(0 100% 0 0);filter:blur(4px);transition:clip-path 4.5s var(--resp),filter 4.5s var(--resp)}
+#s-lema.on .lema{clip-path:inset(0 0 0 0);filter:none}
+#s-lema .nome{margin-top:6vh;max-width:18ch}
+#s-lema .meta{margin-top:2.4vh;display:flex;gap:3vw;flex-wrap:wrap}
+#s-lema .prov{position:absolute;right:8vw;bottom:8vh;font-size:clamp(20px,1.8vw,32px);color:var(--tinta2);transform:rotate(-3deg)}
+
+/* 4 trilhas */
+#s-trilhas .cx{justify-content:flex-start;padding-top:10vh}
+.janelas{margin-top:5vh;display:grid;grid-template-columns:repeat(4,1fr);gap:1.6vw;height:52vh}
+.jan{position:relative;cursor:pointer;perspective:1400px;outline:none}
+.jan .dentro{position:absolute;inset:0;padding:2.2vw 1.8vw;display:flex;flex-direction:column;justify-content:flex-end;background:rgba(255,250,240,.55);box-shadow:0 30px 60px -40px rgba(60,35,15,.45)}
+.jan .dentro .t-m{color:var(--tinta)}
+.jan .dentro .t-s{margin-top:1.4vh}
+.jan .folha{position:absolute;top:0;bottom:0;width:50%;transition:transform 1.6s var(--resp);transform-style:preserve-3d;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.02 .6' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .18 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>")}
+.jan .folha.a{left:0;transform-origin:left center}
+.jan .folha.b{right:0;transform-origin:right center}
+.jan.aberta .folha.a{transform:rotateY(-108deg)}
+.jan.aberta .folha.b{transform:rotateY(108deg)}
+.jan .rot{position:absolute;left:0;right:0;top:42%;text-align:center;color:var(--papel);z-index:3;transition:opacity 1s;pointer-events:none;padding:0 1vw}
+.jan .rot .t-m{color:var(--papel)}
+.jan .rot .kicker{color:rgba(239,230,214,.7);margin-bottom:1.2vh}
+.jan.aberta .rot{opacity:0}
+#s-trilhas .rodape{margin-top:4vh}
+
+/* 5 partitura */
+#s-part .cx{justify-content:flex-start;padding-top:8vh}
+.pauta{position:relative;margin-top:4vh;height:60vh}
+.voz{position:absolute;left:0;right:0;height:7.5vh;display:flex;align-items:center;opacity:0;transform:translateX(-30px);transition:opacity 1.4s var(--resp),transform 1.4s var(--resp)}
+.voz.vis{opacity:1;transform:none}
+.voz .nomev{width:23vw;flex:none;cursor:pointer;display:flex;align-items:baseline;gap:.8vw;padding-right:1vw}
+.voz .nomev .n{font-family:var(--serif);font-style:italic;font-size:clamp(18px,1.6vw,28px)}
+.voz .nomev .t{font-family:var(--serif);font-size:clamp(15px,1.25vw,22px);line-height:1.15}
+.voz .nomev:hover .t{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px}
+.voz svg{flex:1;height:100%;overflow:visible}
+.voz path{fill:none;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:3000;stroke-dashoffset:3000;transition:stroke-dashoffset 3.5s var(--resp)}
+.voz.vis path{stroke-dashoffset:0}
+.voz circle{opacity:0;transition:opacity 1s 1.5s}
+.voz.vis circle{opacity:1}
+#gaveta{position:absolute;top:0;right:0;bottom:0;width:38vw;background:var(--papel);box-shadow:-40px 0 80px -40px rgba(40,25,10,.45);transform:translateX(105%);transition:transform 1.2s var(--resp);z-index:20;padding:9vh 3vw 6vh;overflow:auto}
+#gaveta.on{transform:none}
+#gaveta .faixa{width:3.2vw;height:4px;margin-bottom:3vh}
+#gaveta ol{list-style:none;margin-top:3.5vh}
+#gaveta li{padding:1.6vh 0;display:flex;justify-content:space-between;gap:2vw;font-family:var(--serif);font-size:clamp(15px,1.25vw,22px);line-height:1.3}
+#gaveta li span{font-family:var(--sans);font-size:clamp(12px,.9vw,15px);color:var(--tinta2);white-space:nowrap;padding-top:.3em}
+#gaveta .fecha{margin-top:4vh;cursor:pointer}
+#s-part .soma{position:absolute;left:8vw;bottom:6vh;display:flex;gap:4vw}
+#s-part .soma b{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.2vw,40px);display:block;color:var(--tinta)}
+
+/* 6 tela */
+#s-tela .cx{flex-direction:row;align-items:center;gap:5vw}
+#s-tela .esq{flex:1}
+.roda{position:relative;width:min(46vh,34vw);height:min(46vh,34vw);flex:none;margin-right:6vw}
+.roda .aro{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(42,33,25,.25);animation:gira 90s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+.roda .no{position:absolute;width:15vw;text-align:center;transform:translate(-50%,-50%);opacity:0;transition:opacity 1.6s var(--resp)}
+.roda .no.vis{opacity:1}
+.roda .no .bola{width:14px;height:14px;border-radius:50%;margin:0 auto 1.2vh}
+.roda .no .t-m{font-size:clamp(16px,1.35vw,24px)}
+.roda .no .t-s{font-size:clamp(12px,.85vw,15px)}
+#s-tela .ponte{margin-top:5vh;color:var(--terracota)}
+
+/* 7 caixa */
+#s-caixa .cx{flex-direction:row;align-items:center;gap:4vw;padding-right:5vw}
+.caixa-wrap{flex:none;width:26vw;display:flex;flex-direction:column;align-items:center}
+.caixa{position:relative;width:20vw;height:15vw;perspective:900px;margin-top:6vh}
+.caixa .corpo{position:absolute;inset:0;background:#b98c5a;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='k'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .2  0 0 0 0 .1  0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23k)'/></svg>");
+  box-shadow:0 40px 60px -30px rgba(40,20,5,.6), inset 0 -20px 40px rgba(60,30,10,.25)}
+.caixa .tampa{position:absolute;left:-4%;right:-4%;top:-14%;height:22%;background:#a77b4b;transform-origin:50% 0%;transition:transform 2.2s var(--resp);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='k'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .2  0 0 0 0 .1  0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23k)'/></svg>");box-shadow:0 8px 14px -6px rgba(40,20,5,.5)}
+#s-caixa.s1 .tampa{transform:translate(-38%,-5.5vw) rotate(-16deg)}
+.caixa .etq{position:absolute;left:12%;right:12%;top:38%;text-align:center;font-family:var(--mao);font-size:clamp(18px,1.7vw,30px);color:#3a2513;transform:rotate(-2deg)}
+.caixa .vapor{position:absolute;left:30%;right:30%;top:-30%;height:60%;opacity:0;background:radial-gradient(ellipse at 50% 100%,rgba(243,199,122,.55),transparent 65%);filter:blur(12px);transition:opacity 3s 1s}
+#s-caixa.s1 .vapor{opacity:1;animation:sobe 6s ease-in-out infinite}
+@keyframes sobe{0%,100%{transform:translateY(0) scaleX(1)}50%{transform:translateY(-2vw) scaleX(1.2)}}
+.caixa-wrap .t-s{margin-top:5vh;text-align:center;max-width:24vw}
+.itens{flex:1;display:grid;grid-template-columns:1fr 1fr;column-gap:3vw;row-gap:2.2vh;align-content:center}
+.item{display:flex;gap:1vw;opacity:0;transform:translateY(14px);transition:opacity 1.2s var(--resp),transform 1.2s var(--resp)}
+.item.vis{opacity:1;transform:none}
+.item .num{font-family:var(--serif);font-style:italic;font-size:clamp(20px,1.9vw,34px);color:var(--terracota);width:2.6vw;flex:none;line-height:1}
+.item .nm{font-family:var(--serif);font-size:clamp(15px,1.2vw,21px);line-height:1.2}
+.item .fn{font-size:clamp(12px,.82vw,14px);color:var(--tinta2);line-height:1.4;margin-top:.4vh}
+
+/* 8 diferencas */
+#s-dif .cx{justify-content:flex-start;padding-top:10vh}
+.cols{margin-top:5vh;display:grid;grid-template-columns:1fr 1fr 1.35fr;gap:4vw}
+.col{opacity:0;transform:translateY(16px);transition:opacity 1.5s var(--resp),transform 1.5s var(--resp)}
+.col.vis{opacity:1;transform:none}
+.col h3{font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(20px,1.8vw,32px);margin-bottom:2.4vh}
+.col li{list-style:none;padding:.9vh 0;font-size:clamp(13px,1.02vw,18px);line-height:1.35}
+.col.fora li{color:var(--tinta2)}
+.col.fora .risco{text-decoration:line-through;text-decoration-color:rgba(181,83,47,.7)}
+.col.fora li small{display:block;font-size:.85em;color:var(--tinta2);margin-top:.2vh}
+.col.mais li{position:relative;padding-left:1.4vw}
+.col.mais li::before{content:"";position:absolute;left:0;top:1.55vh;width:.55vw;height:.55vw;border-radius:50%;background:var(--terracota)}
+.col.mais h3{color:var(--terracota)}
+#s-dif .ref{position:absolute;left:8vw;bottom:6vh}
+
+/* 9 mostra */
+#s-mostra{color:var(--papel)}
+#s-mostra .cx{justify-content:flex-start;padding-top:10vh}
+#s-mostra .t-l{color:var(--papel)}
+#s-mostra .t-s{color:rgba(239,230,214,.6)}
+.parede{margin-top:6vh;display:grid;grid-template-columns:repeat(3,1fr);gap:3vw 3vw}
+.quadro{position:relative;padding:2.4vw 2vw 2vw;min-height:18vh;opacity:0;transform:translateY(20px);transition:opacity 1.6s var(--resp),transform 1.6s var(--resp);
+  box-shadow:0 30px 50px -25px rgba(0,0,0,.7)}
+.quadro.vis{opacity:1;transform:none}
+.quadro::before{content:"";position:absolute;left:50%;top:-14vh;width:24vw;height:14vh;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0%,rgba(255,226,168,.18),transparent 70%);pointer-events:none}
+.quadro .t-m{color:#1d1610;font-size:clamp(16px,1.35vw,24px)}
+.quadro .t-s{color:rgba(29,22,16,.7);margin-top:1.2vh;font-size:clamp(11px,.8vw,14px)}
+
+/* 10 cronograma */
+#s-crono .cx{justify-content:flex-start;padding-top:10vh}
+.linha{position:relative;margin-top:8vh;height:46vh}
+.linha svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.linha path{fill:none;stroke:var(--tinta);stroke-width:2;stroke-linecap:round;stroke-dasharray:2600;stroke-dashoffset:2600;transition:stroke-dashoffset 5s var(--resp)}
+#s-crono.on .linha path{stroke-dashoffset:0}
+.marco{position:absolute;width:13vw;transform:translateX(-50%);opacity:0;transition:opacity 1.2s var(--resp)}
+.marco.vis{opacity:1}
+.marco .ponto{width:12px;height:12px;border-radius:50%;background:var(--terracota);margin:0 auto 1.4vh}
+.marco .q{font-family:var(--serif);font-style:italic;font-size:clamp(16px,1.35vw,24px);text-align:center;color:var(--terracota)}
+.marco .o{font-size:clamp(12px,.9vw,16px);text-align:center;line-height:1.4;margin-top:.6vh}
+.marco.final .ponto{width:22px;height:22px;box-shadow:0 0 0 8px rgba(181,83,47,.15)}
+#s-crono .nota{position:absolute;right:8vw;bottom:7vh;font-size:clamp(22px,2vw,36px);color:var(--terracota);transform:rotate(-2deg)}
+
+/* 11 fecho */
+#s-fecho{color:var(--papel)}
+#s-fecho .vozes{position:absolute;inset:0}
+#s-fecho .vozes path{fill:none;stroke-width:2;stroke-linecap:round;opacity:.85;stroke-dasharray:4000;stroke-dashoffset:4000;transition:stroke-dashoffset 6s var(--resp),opacity 2s}
+#s-fecho.on .vozes path{stroke-dashoffset:0}
+#s-fecho.s2 .vozes path{opacity:.15}
+#s-fecho .titulo{position:absolute;left:0;right:0;top:12vh;text-align:center;transition:opacity 1.5s}
+#s-fecho .titulo .t-l{color:var(--papel)}
+#s-fecho.s1 .titulo{opacity:0}
+#video{position:absolute;left:50%;top:50%;width:58vw;height:32.6vw;transform:translate(-50%,-50%) scale(.96);opacity:0;transition:opacity 2s var(--resp),transform 2s var(--resp);box-shadow:0 50px 90px -40px rgba(0,0,0,.9);pointer-events:none;background:#000}
+#s-fecho.s1 #video{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}
+#s-fecho.s2 #video{opacity:0;pointer-events:none}
+#video iframe{width:100%;height:100%;border:0}
+#video .alt{position:absolute;left:0;right:0;bottom:-5vh;text-align:center;font-size:13px;color:rgba(239,230,214,.5)}
+#video .alt a{color:rgba(239,230,214,.75)}
+#s-fecho .luz{position:absolute;left:50%;top:34%;width:40vmin;height:40vmin;margin:-20vmin;border-radius:50%;opacity:0;transition:opacity 3s;
+  background:radial-gradient(circle,rgba(255,232,185,.95) 0%,rgba(243,190,105,.6) 22%,rgba(227,165,72,.22) 45%,rgba(227,165,72,.06) 60%,rgba(227,165,72,0) 70%);animation:respira 5s ease-in-out infinite}
+#s-fecho.s2 .luz{opacity:1}
+#s-fecho .pergunta{position:absolute;left:0;right:0;top:52%;text-align:center;padding:0 8vw;font-size:clamp(40px,5vw,92px);color:var(--ambar2);opacity:0;transition:opacity 3s 1.5s}
+#s-fecho.s2 .pergunta{opacity:1}
+#s-fecho .assina{position:absolute;right:10vw;bottom:9vh;font-size:clamp(24px,2.2vw,40px);color:rgba(239,230,214,.7);opacity:0;transition:opacity 3s 4s}
+#s-fecho.s2 .assina{opacity:1}
+
+/* sobreposicao Fernando */
+#fernando{position:fixed;inset:0;z-index:40;background:var(--papel);opacity:0;visibility:hidden;transition:opacity .9s,visibility 0s .9s;overflow:auto}
+#fernando.on{opacity:1;visibility:visible;transition:opacity .9s}
+#fernando .cx{position:relative;min-height:100%;padding:9vh 8vw;justify-content:flex-start}
+.fgrid{margin-top:5vh;display:grid;grid-template-columns:1fr 1fr 1fr;gap:3vw 4vw}
+.fgrid h4{font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(17px,1.4vw,24px);color:var(--terracota);margin-bottom:1.4vh}
+.fgrid p,.fgrid li{font-size:clamp(13px,.95vw,16px);line-height:1.5}
+.fgrid li{list-style:none;padding:.4vh 0}
+.junta{margin-top:5vh}
+.junta table{border-collapse:collapse;width:100%;margin-top:2vh}
+.junta td{padding:1vh 1vw 1vh 0;font-size:clamp(12px,.9vw,15px);vertical-align:top;line-height:1.4}
+.junta td:first-child{font-family:var(--serif);font-size:clamp(14px,1.05vw,18px);width:22%}
+.junta td:last-child{white-space:nowrap;color:var(--tinta2);text-align:right}
+#som{position:fixed;right:18px;bottom:14px;z-index:60;font-size:12px;color:rgba(239,230,214,.35);font-family:var(--sans);opacity:0;transition:opacity .6s}
+#som.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="grao"></div>
+<div id="deck">
+
+<!-- 1 ABERTURA -->
+<section class="slide escuro" id="s-abre" data-steps="5" data-ambient="" data-titulo="Abertura com a xícara">
+  <div class="papelfundo papel"></div>
+  <div class="luz"></div>
+  <div class="frase f1 mao" data-escreve="Você lembrou do que sentiu."></div>
+  <div class="frase f2 surge" data-em="4">Levantem a xícara.</div>
+  <div class="frase f3 surge" data-em="5"><div class="t-m" style="color:var(--papel)">Vocês acabaram de viver o primeiro minuto da nossa pós.</div><div class="t-l" style="color:var(--ambar2);margin-top:1.6vh;font-style:italic">Online.</div></div>
+  <script type="text/notas">
+  <b>Antes de apertar:</b> "Bom dia! Antes de qualquer slide, queria pedir um minuto de vocês. Peguem a xícara que pedimos." (luz pequena, silêncio)
+  <b>Passo 1, chuva entra:</b> Paulo conduz o corpo: "Sintam o calor nas mãos. O cheiro. O peso." Sem xícara: "esfreguem as mãos e sintam o calor que vocês mesmos fazem."
+  <b>Passo 2, piano:</b> Carla conduz a memória: "Fechem os olhos. Lembrem de uma aula que marcou vocês. Onde era? Quem estava falando? O que vocês sentiram?" Deixe 15 a 20 segundos de silêncio.
+  <b>Passo 3:</b> "Podem abrir os olhos." A frase se escreve sozinha.
+  <b>Passo 4:</b> o brinde. "Levantem a xícara para a câmera." Levante a sua também.
+  <b>Passo 5:</b> deixe a frase respirar. Não fale nada por 3 segundos.
+  </script>
+</section>
+
+<!-- 2 VIRADA -->
+<section class="slide" id="s-vira" data-steps="3" data-ambient="escritorio" data-titulo="O incômodo e a virada">
+  <div class="atras papel">
+    <div class="cx">
+      <div class="t-xl l1 surge" data-em="1">A máquina tem todas as respostas.</div>
+      <div class="mao l2 surge" data-em="2">Mas quem lembrou daquela aula foi você.</div>
+      <div class="t-m l3 surge" data-em="3">A IA ajuda a fazer. Quem pensa, sente e escolhe continua sendo o ser humano.</div>
+    </div>
+  </div>
+  <div class="metade esq"><div class="corp">
+    <div class="topo">Planejamento Estratégico de Capacitação 2027</div>
+    <div class="sub">Alinhamento institucional e próximos passos</div>
+    <ul><li>Alinhar sinergias entre as áreas</li><li>Potencializar resultados com foco no cliente</li><li>Engajar colaboradores de forma disruptiva</li><li>Otimizar processos com inteligência artificial</li><li>Promover a cultura de inovação contínua</li><li>Garantir a excelência em todas as entregas</li></ul>
+    <div class="icones"><div>&#9881;</div><div>&#9733;</div><div>&#10004;</div><div>&#8599;</div></div>
+    <div class="rod"><span>Uso interno</span><span>Slide 14 de 87</span></div>
+  </div></div>
+  <div class="metade dir"><div class="corp">
+    <div class="topo">Planejamento Estratégico de Capacitação 2027</div>
+    <div class="sub">Alinhamento institucional e próximos passos</div>
+    <ul><li>Alinhar sinergias entre as áreas</li><li>Potencializar resultados com foco no cliente</li><li>Engajar colaboradores de forma disruptiva</li><li>Otimizar processos com inteligência artificial</li><li>Promover a cultura de inovação contínua</li><li>Garantir a excelência em todas as entregas</li></ul>
+    <div class="icones"><div>&#9881;</div><div>&#9733;</div><div>&#10004;</div><div>&#8599;</div></div>
+    <div class="rod"><span>Uso interno</span><span>Slide 14 de 87</span></div>
+  </div></div>
+  <script type="text/notas">
+  <b>Ao entrar:</b> o slide "padrão" vai perdendo a cor sozinho, com ruído de escritório. Fale: "Vocês já viram esse slide. Todos nós já fizemos esse slide. Hoje a IA faz 87 deles em um minuto. E ninguém lembra de nenhum."
+  <b>Passo 1, o papel rasga:</b> "A máquina tem todas as respostas."
+  <b>Passo 2:</b> "Mas quem lembrou daquela aula, agora há pouco, foi você." (olhe para a câmera)
+  <b>Passo 3:</b> a tese do curso. A IA é ferramenta; o pensamento, o sentimento e a escolha são humanos.
+  </script>
+</section>
+
+<!-- 3 LEMA -->
+<section class="slide papel" id="s-lema" data-steps="1" data-ambient="" data-titulo="O lema vira curso">
+  <div class="cx">
+    <div class="kicker surge" data-em="0">O nosso lema, agora como formação</div>
+    <div class="lema mao" style="margin-top:2vh">Abrir mentes e mundos</div>
+    <div class="t-l nome surge" data-em="1">Design de Experiências Memoráveis</div>
+    <div class="t-m surge" data-em="1" style="color:var(--tinta2);font-style:italic;margin-top:1.4vh">sentidos, emoção e humanidade na era da IA</div>
+    <div class="meta t-s surge" data-em="1"><span>Pós-graduação lato sensu</span><span>18 meses</span><span>360 horas</span><span>Online ao vivo</span></div>
+  </div>
+  <div class="prov mao surge" data-em="1">nome provisório</div>
+  <script type="text/notas">
+  <b>Ao entrar:</b> "Abrir mentes e mundos" se escreve como tinta. Fale: "Esse é o nosso lema. A pergunta que a Carla me fez foi: e se o lema virasse curso?"
+  <b>Passo 1:</b> o nome provisório. Diga que é provisório e que o nome vai ser discutido.
+  <b>Ponte:</b> o Cuidar para Abrir Mundos forma os professores da casa. A pós leva o mesmo método para o mercado.
+  </script>
+</section>
+
+<!-- 4 TRILHAS -->
+<section class="slide papel" id="s-trilhas" data-steps="0" data-ambient="" data-titulo="Para quem é: as 4 trilhas">
+  <div class="cx">
+    <div class="kicker">Para quem é</div>
+    <div class="t-l" style="margin-top:1.6vh;max-width:24ch">Para quem trabalha com gente e quer ser lembrado por isso.</div>
+    <div class="janelas">
+      <div class="jan" data-som="aula" tabindex="-1">
+        <div class="dentro"><div class="t-m">"Quero que a aula de março seja lembrada em dezembro."</div><div class="t-s">Professores, coordenadores, educação corporativa, formação de equipes.</div></div>
+        <div class="folha a" style="background-color:var(--e1)"></div><div class="folha b" style="background-color:var(--e1)"></div>
+        <div class="rot"><div class="kicker">Trilha</div><div class="t-m">Educação e aprendizagem</div></div>
+      </div>
+      <div class="jan" data-som="loja" tabindex="-1">
+        <div class="dentro"><div class="t-m">"Quero que o cliente sinta a marca antes de ler o nome."</div><div class="t-s">Marketing, varejo, comunicação, eventos, gastronomia.</div></div>
+        <div class="folha a" style="background-color:var(--e3)"></div><div class="folha b" style="background-color:var(--e3)"></div>
+        <div class="rot"><div class="kicker">Trilha</div><div class="t-m">Marcas, varejo e eventos</div></div>
+      </div>
+      <div class="jan" data-som="obra" tabindex="-1">
+        <div class="dentro"><div class="t-m">"Quero desenhar lugares de onde ninguém quer ir embora."</div><div class="t-s">Arquitetura, design de interiores, hotelaria, cultura e museus.</div></div>
+        <div class="folha a" style="background-color:var(--e5)"></div><div class="folha b" style="background-color:var(--e5)"></div>
+        <div class="rot"><div class="kicker">Trilha</div><div class="t-m">Espaços e arquitetura</div></div>
+      </div>
+      <div class="jan" data-som="consultorio" tabindex="-1">
+        <div class="dentro"><div class="t-m">"Quero que o cuidado também seja sentido."</div><div class="t-s">Psicologia, saúde, RH, experiência do colaborador.</div></div>
+        <div class="folha a" style="background-color:var(--e2)"></div><div class="folha b" style="background-color:var(--e2)"></div>
+        <div class="rot"><div class="kicker">Trilha</div><div class="t-m">Pessoas, saúde e bem-estar</div></div>
+      </div>
+    </div>
+    <div class="t-s rodape">Qualquer graduação. Do Brasil inteiro. A trilha escolhida guia o laboratório e o projeto final.</div>
+  </div>
+  <script type="text/notas">
+  <b>Clique em cada janela</b> (com o mouse) para abrir. Cada uma tem o som do seu mundo: sala de aula, loja, obra, consultório.
+  Fale que o curso é multidisciplinar sem ser genérico: a base é comum e a aplicação acontece na trilha.
+  Quando terminar, aperte a seta para seguir.
+  </script>
+</section>
+
+<!-- 5 PARTITURA -->
+<section class="slide papel" id="s-part" data-steps="8" data-ambient="" data-titulo="A partitura dos 8 eixos">
+  <div class="cx">
+    <div class="kicker">Como em Céu de Santo Amaro</div>
+    <div class="t-l" style="margin-top:1.6vh">Oito vozes. Uma obra só.</div>
+    <div class="pauta" id="pauta"></div>
+  </div>
+  <div class="soma t-s surge" data-em="8"><div><b>360 h</b>em 18 meses</div><div><b>25</b>disciplinas, mais trilha e projeto</div><div><b>4</b>trilhas de aplicação</div></div>
+  <div id="gaveta"></div>
+  <script type="text/notas">
+  <b>Cada seta faz entrar uma voz</b>, com o seu tom. Conte a ideia: Bach, Caetano, a dupla sertaneja e um maestro que reaprendeu a reger. Mundos diferentes formando uma obra só. O curso é assim.
+  <b>Clique no nome de um eixo</b> para abrir as disciplinas sugeridas. Clique fora ou em "fechar" para recolher.
+  Na oitava voz, as oito soam juntas.
+  É a versão rica. Se o Fernando perguntar da operação, aperte P: lá está a junção possível em menos disciplinas.
+  </script>
+</section>
+
+<!-- 6 TELA -->
+<section class="slide papel" id="s-tela" data-steps="2" data-ambient="" data-titulo="Como se sente pela tela">
+  <div class="cx">
+    <div class="esq">
+      <div class="kicker">O método online</div>
+      <div class="t-l" style="margin-top:1.6vh;max-width:14ch">Como se sente pela tela</div>
+      <div class="t-l ponte mao surge" data-em="2" style="font-size:clamp(34px,3.6vw,64px)">Vocês acabaram de sentir isso.</div>
+      <div class="t-s surge" data-em="2" style="margin-top:2.4vh;max-width:40ch">E, para quem puder, duas imersões presenciais opcionais: na abertura e na mostra final, com transmissão ao vivo.</div>
+    </div>
+    <div class="roda" id="roda"><div class="aro"></div></div>
+  </div>
+  <script type="text/notas">
+  <b>Passo 1:</b> o ciclo aparece. Explique: encontro ao vivo semanal; a caixa chega antes de cada eixo (ou a versão "encontre em casa"); a missão é aplicada no trabalho do aluno; o registro é um vídeo de 60 segundos, antes e depois.
+  <b>Passo 2:</b> a ponte com a abertura. "Tudo isso que eu falei, vocês acabaram de viver com uma xícara."
+  </script>
+</section>
+
+<!-- 7 CAIXA -->
+<section class="slide papel" id="s-caixa" data-steps="1" data-ambient="" data-titulo="A Caixa 01">
+  <div class="cx">
+    <div class="caixa-wrap">
+      <div class="kicker" style="text-align:center">Caixa sensorial</div>
+      <div class="caixa"><div class="vapor"></div><div class="corpo"></div><div class="tampa"></div><div class="etq">Caixa 01<br>Abrir mentes e mundos</div></div>
+      <div class="t-s">Ao abrir, sai o aroma de assinatura do curso. O mesmo cheiro em todas as caixas e nas imersões.</div>
+    </div>
+    <div class="itens" id="itens"></div>
+  </div>
+  <script type="text/notas">
+  <b>Passo 1:</b> a tampa abre e os itens saem um a um. Escolha dois ou três para contar com calma: a venda, a dupla de sabores e o cartão-missão.
+  Cuidados que vale citar: só alimentos que não estragam, formulário de alergias na matrícula, versão adaptada para quem tem deficiência visual ou olfativa.
+  Custo da caixa: deixe para a conversa com o Fernando (tecla P).
+  </script>
+</section>
+
+<!-- 8 DIFERENCAS -->
+<section class="slide papel" id="s-dif" data-steps="3" data-ambient="" data-titulo="O que muda em relação à referência">
+  <div class="cx">
+    <div class="kicker">Em relação à referência</div>
+    <div class="t-l" style="margin-top:1.6vh">O que fica, o que sai, o que chega.</div>
+    <div class="cols">
+      <div class="col" data-em="1"><h3>Mantemos, com outro olhar</h3><ul>
+        <li>A base multissensorial: cor, luz, som, toque e aroma</li><li>Design emocional e storytelling</li><li>Experiências imersivas, AR e VR</li><li>Acessibilidade sensorial</li><li>Biofilia</li><li>Medir a experiência</li></ul></div>
+      <div class="col fora" data-em="2"><h3>Deixamos de fora</h3><ul>
+        <li><span class="risco">UX de interface de tela</span><small>o foco é a experiência humana em qualquer meio</small></li>
+        <li><span class="risco">Visitas técnicas presenciais</span><small>viram missões de campo, do Brasil inteiro</small></li>
+        <li><span class="risco">Eletivas genéricas</span><small>viram trilhas e projeto integrador</small></li></ul></div>
+      <div class="col mais" data-em="3"><h3>Trazemos a mais</h3><ul>
+        <li>O eixo Abrir mentes e mundos: pensamento crítico, gestão emocional, criatividade</li>
+        <li>Neurociência da emoção e da memória</li>
+        <li>Paladar, rituais, cenografia e eventos ao vivo</li>
+        <li>Um eixo inteiro de IA, com a Voz Contrária</li>
+        <li>Ética da manipulação emocional</li>
+        <li>Medir, precificar e vender experiências</li>
+        <li>Quatro trilhas de aplicação</li>
+        <li>Projeto com cliente real e mostra imersiva</li>
+        <li>Caixas sensoriais e missões gravadas</li>
+        <li>Começar antes: abril de 2027</li></ul></div>
+    </div>
+  </div>
+  <div class="ref t-s">Referência: pós UX Emocional, PUCPR, EAD ao vivo, início previsto para maio de 2027.</div>
+  <script type="text/notas">
+  Três passos, uma coluna por vez. Tom respeitoso com a PUCPR: é a referência que inspirou, não um alvo.
+  Ênfase na terceira coluna: o eixo de IA (a PUCPR fala em "pós feita para o mundo pós IA", mas não tem disciplina de IA) e a Voz Contrária, que é método nosso.
+  </script>
+</section>
+
+<!-- 9 MOSTRA -->
+<section class="slide escuro" id="s-mostra" data-steps="0" data-ambient="vernissage" data-titulo="A mostra final">
+  <div class="cx">
+    <div class="kicker" style="color:rgba(239,230,214,.55)">Projeto integrador</div>
+    <div class="t-l" style="margin-top:1.6vh">No fim, uma mostra. Não um TCC.</div>
+    <div class="parede" id="parede"></div>
+    <div class="t-s" style="margin-top:4vh">Projetos imaginados, para ilustrar. Cada aluno desenvolve o seu com um cliente real, dentro da trilha.</div>
+  </div>
+  <script type="text/notas">
+  Burburinho de vernissage ao fundo. Os quadros aparecem sozinhos.
+  Fale do formato: projeto com cliente real, mostra imersiva aberta (ao vivo e transmitida) e portfólio. O aluno sai com algo para mostrar, e a instituição ganha um evento por turma.
+  </script>
+</section>
+
+<!-- 10 CRONOGRAMA -->
+<section class="slide papel" id="s-crono" data-steps="0" data-ambient="" data-titulo="Cronograma">
+  <div class="cx">
+    <div class="kicker">Cronograma</div>
+    <div class="t-l" style="margin-top:1.6vh">Do primeiro minuto à primeira turma.</div>
+    <div class="linha" id="linha"><svg viewBox="0 0 1000 300" preserveAspectRatio="none"><path d="M10 230 C 120 200, 160 120, 230 140 S 360 230, 420 170 S 520 60, 600 110 S 720 220, 790 150 S 900 40, 990 70"/></svg></div>
+  </div>
+  <div class="nota mao surge" data-em="0" style="transition-delay:5.5s">um mês antes da referência</div>
+  <script type="text/notas">
+  A linha se desenha como lápis, com o som. Os marcos aparecem sozinhos.
+  Peça o que precisa sair da reunião: o sinal verde para detalhar eixos, ementas e professores até 30/11.
+  </script>
+</section>
+
+<!-- 11 FECHO -->
+<section class="slide escuro" id="s-fecho" data-steps="2" data-ambient="" data-titulo="Fechamento com a música">
+  <svg class="vozes" id="vozesfim" viewBox="0 0 1000 600" preserveAspectRatio="none"></svg>
+  <div class="titulo"><div class="kicker" style="color:rgba(239,230,214,.55)">Para terminar</div><div class="t-l" style="margin-top:1.6vh">Oito vozes. Uma obra.</div></div>
+  <div id="video"><div class="alt">Se o vídeo não abrir: <a href="https://www.youtube.com/watch?v=lIJuk_EnT8M&t=395s" target="_blank" rel="noopener">abrir no YouTube em 6:35</a></div></div>
+  <div class="luz"></div>
+  <div class="pergunta mao">Do que vocês vão lembrar desta reunião?</div>
+  <div class="assina mao">Paulo e Carla</div>
+  <script type="text/notas">
+  <b>Ao entrar:</b> as oito vozes se desenham e convergem.
+  <b>Passo 1:</b> o vídeo começa em 6:35, quando todos cantam juntos. Deixe tocar. Depois, puxe a conversa sobre o trecho "Olho para os céus".
+  <b>Passo 2:</b> a música sai, a chuva do início volta, a luz respira. A pergunta fica na tela. Silêncio. Depois: "Obrigado. Vamos conversar?"
+  </script>
+</section>
+
+</div>
+
+<!-- PARA O FERNANDO (tecla P) -->
+<div id="fernando" class="papel">
+  <div class="cx">
+    <div class="kicker">Para a conversa de operação</div>
+    <div class="t-l" style="margin-top:1.6vh">Hipóteses para validar juntos</div>
+    <div class="fgrid">
+      <div><h4>Formato</h4><ul><li>Online ao vivo, 1 encontro semanal de 3 h à noite</li><li>Gravação como material complementar</li><li>Cada disciplina de 12 h: 2 encontros ao vivo e 6 h de missão de campo</li><li>2 imersões presenciais opcionais</li></ul></div>
+      <div><h4>Corpo docente</h4><ul><li>Base da casa: Paulo, Carla, Ana Busqueto e outros a definir</li><li>Convidados nacionais e internacionais por disciplina</li><li>Mínimo de 30% de mestres e doutores (Res. CNE/CES 1/2018, a confirmar)</li></ul></div>
+      <div><h4>Números a definir</h4><ul><li>Turma mínima para abrir online</li><li>Valor da hora-aula de convidados</li><li>Caixa sensorial: estimativa de R$ 50 a 100 por caixa, mais frete; de 4 a 7 caixas por aluno</li><li>Preço: em aberto, a definir com vocês</li></ul></div>
+    </div>
+    <div class="junta">
+      <h4 style="font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(17px,1.4vw,24px);color:var(--terracota)">Junção possível: de 25 para 9 disciplinas, mais trilha e projeto, com os convidados dentro delas</h4>
+      <table>
+        <tr><td>Abrir mentes e mundos</td><td>pensamento crítico, gestão emocional, criatividade combinatória</td><td>36 h</td></tr>
+        <tr><td>Emoção, memória e comportamento</td><td>neurociência, design emocional, decisão e vieses</td><td>36 h</td></tr>
+        <tr><td>Os sentidos I</td><td>percepção, cor, luz e som</td><td>36 h</td></tr>
+        <tr><td>Os sentidos II</td><td>tato, materiais, aroma e sabor</td><td>24 h</td></tr>
+        <tr><td>Narrativa e significado</td><td>roteiro, rituais, identidade, linguagem sensível</td><td>36 h</td></tr>
+        <tr><td>Espaço e ambiente</td><td>arquitetura sensorial, biofilia, cenografia, acessibilidade</td><td>48 h</td></tr>
+        <tr><td>Imersivo e phygital</td><td>VR, AR, projeção</td><td>12 h</td></tr>
+        <tr><td>Humano no comando</td><td>IA como ateliê, Voz Contrária, ética da experiência</td><td>36 h</td></tr>
+        <tr><td>Experiência que gera valor</td><td>medir, precificar, vender, gerir</td><td>36 h</td></tr>
+        <tr><td>Trilha e projeto integrador</td><td>laboratório da trilha, projeto e mostra</td><td>60 h</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="som"></div>
+
+<script>
+/* ---------- DADOS ---------- */
+const EIXOS=[
+ {n:"Abrir mentes e mundos",c:"var(--e1)",hz:261.63,d:[["Pensamento crítico e repertório: a arte como lente",12],["Gestão emocional de quem cria",12],["Criatividade combinatória: juntar mundos",12]]},
+ {n:"Emoção, memória e comportamento",c:"var(--e2)",hz:329.63,d:[["Neurociência da emoção e da memória",12],["Design emocional e psicologia da experiência",12],["Comportamento, decisão e vieses",12]]},
+ {n:"Corpo e sentidos",c:"var(--e3)",hz:392.00,d:[["Percepção humana e design multissensorial",12],["Cor, luz e atmosfera",12],["Som, música e paisagem sonora",12],["Tato, materiais e texturas",12],["Aroma, sabor e memória afetiva",12]]},
+ {n:"Narrativa e significado",c:"var(--e4)",hz:493.88,d:[["Storytelling e roteiro de experiências",12],["Rituais, símbolos e identidade de marca",12],["Linguagem sensível: escrever para tocar",12]]},
+ {n:"Espaço e ambiente",c:"var(--e5)",hz:587.33,d:[["Arquitetura sensorial e ambientação",12],["Biofilia e conexão com a natureza",12],["Cenografia, eventos e experiências ao vivo",12],["Imersivo e phygital: VR, AR e projeção",12],["Acessibilidade sensorial: design para todos os corpos",12]]},
+ {n:"Humano no comando: a IA como ferramenta",c:"var(--e6)",hz:659.25,d:[["IA como ateliê: prototipar experiências com IA",12],["Voz Contrária: pensar com a IA sem terceirizar o pensamento",12],["Ética da experiência: manipulação, dark patterns e privacidade emocional",12]]},
+ {n:"Experiência que gera valor",c:"var(--e7)",hz:783.99,d:[["Medir a experiência: pesquisa, testes e indicadores emocionais",12],["Orçar, precificar e vender experiências",12],["Gestão de projetos experienciais",12]]},
+ {n:"Trilha e projeto integrador",c:"var(--e8)",hz:987.77,d:[["Laboratório da trilha escolhida",24],["Projeto integrador I: diagnóstico e conceito",12],["Projeto integrador II: protótipo e teste",12],["Projeto integrador III: mostra imersiva e registro",12]]}
+];
+const ITENS=[
+ ["Envelope lacrado","\"Só abra quando eu pedir.\" Todos abrem juntos, ao vivo, como um ritual."],
+ ["Venda para os olhos","Tira a visão, o sentido que domina tudo, para os outros acordarem."],
+ ["Três texturas opostas","Pedra de rio, seda e pinha. Descrever sem dizer o nome."],
+ ["Sabores que não combinam","Queijo, goiabada e pimenta-rosa. Juntar mundos cria algo novo."],
+ ["Frasco de memória","Café coado ou terra molhada. Que lembrança veio?"],
+ ["Playlist Vozes que se juntam","Com Céu de Santo Amaro: vozes diferentes, uma obra só."],
+ ["Caderno de campo","Papel texturizado e lápis. O diário sensorial dos 18 meses."],
+ ["Uma semente","Cresce junto com o curso. O que você plantou aqui?"],
+ ["Carta escrita à mão","Boas-vindas da coordenação. O contrário do e-mail automático."],
+ ["Cartão-missão 01","Transforme um momento banal do seu trabalho com um único estímulo. Grave 60 segundos."]
+];
+const QUADROS=[
+ ["A aula de química que cheira a laboratório antigo","Professora de Química · Educação e aprendizagem","#d9b98a"],
+ ["A loja da cooperativa que conta a história do grão","Gerente de varejo · Marcas, varejo e eventos","#c9a36e"],
+ ["A sala de espera infantil que vira floresta","Psicóloga · Pessoas, saúde e bem-estar","#a9b38a"],
+ ["O restaurante com uma paisagem sonora para cada prato","Arquiteto · Espaços e arquitetura","#d4a79a"],
+ ["A integração de novos colaboradores que ninguém esquece","Analista de RH · Pessoas, saúde e bem-estar","#b9a6b3"],
+ ["A formatura com assinatura olfativa","Produtora de eventos · Marcas, varejo e eventos","#e0c38c"]
+];
+const MARCOS=[
+ [.01,"09 nov","A ideia, hoje"],[.21,"até 30 nov","Eixos, ementas e professores"],[.40,"dezembro","Aprovação interna e números"],
+ [.59,"janeiro","Identidade, página e manifesto"],[.78,"fev e mar","Captação e aula-experiência aberta"],[.985,"abril 2027","Primeira turma"]
+];
+const CICLO=[["Ao vivo","Encontro semanal de 3 horas, câmera aberta","var(--e1)"],["Caixa","Chega antes de cada eixo, ou a versão encontre em casa","var(--e3)"],["Missão","Aplicada no trabalho de cada aluno","var(--e5)"],["Registro","60 segundos de vídeo, antes e depois","var(--e2)"]];
+const CARTAO=`<h3>Cartão de consulta rápida</h3>
+<p><b>Insights</b><br>A pós é o lema "Abrir mentes e mundos" virando curso<br>O Cuidar forma os professores da casa; a pós forma o mercado<br>O brinde no Meet prova que a experiência atravessa a tela<br>A máquina responde; quem lembra, sente e escolhe é o humano<br>Voz Contrária: método autoral de IA<br>Abril de 2027, antes da PUCPR</p>
+<p><b>Perguntas-chave</b><br>Qual é a turma mínima para abrir online?<br>Imersões presenciais opcionais são possíveis?<br>Qual é a regra para professores convidados?<br>O credenciamento EAD cobre aula ao vivo?<br>Quem aprova, e em quanto tempo?<br>O que precisa estar pronto para lançar em abril?</p>`;
+
+/* ---------- MONTAGEM ---------- */
+function onda(i,w){let y=50,d=`M0 ${y}`;const seg=6;for(let k=1;k<=seg;k++){const x=k*w/seg;const a=(k%2?-1:1)*(14+((i*7+k*5)%18));d+=` Q ${x-w/seg/2} ${y+a}, ${x} ${y}`;}return d;}
+(function montaPauta(){const p=document.getElementById('pauta');EIXOS.forEach((e,i)=>{const v=document.createElement('div');v.className='voz';v.style.top=(i*12.5)+'%';v.dataset.i=i;
+ v.innerHTML=`<div class="nomev"><span class="n" style="color:${e.c}">${i+1}</span><span class="t">${e.n}</span></div><svg viewBox="0 0 1000 100" preserveAspectRatio="none"><line x1="0" y1="50" x2="1000" y2="50" stroke="rgba(42,33,25,.12)" stroke-width="1"/><path d="${onda(i,1000)}" stroke="${e.c}"/>${[1,2,3,4,5].map(k=>`<circle cx="${k*1000/6+((i*37)%60)}" cy="50" r="5" fill="${e.c}"/>`).join('')}</svg>`;
+ v.querySelector('.nomev').addEventListener('click',ev=>{ev.stopPropagation();abreGaveta(i)});p.appendChild(v);});})();
+function abreGaveta(i){const e=EIXOS[i],g=document.getElementById('gaveta');const tot=e.d.reduce((s,x)=>s+x[1],0);
+ g.innerHTML=`<div class="faixa" style="background:${e.c}"></div><div class="kicker">Eixo ${i+1} · ${tot} horas</div><div class="t-l" style="margin-top:1.4vh;font-size:clamp(24px,2.4vw,42px)">${e.n}</div><ol>${e.d.map(x=>`<li>${x[0]}<span>${x[1]} h</span></li>`).join('')}</ol><div class="t-s fecha">fechar</div>`;
+ g.classList.add('on');g.querySelector('.fecha').onclick=()=>g.classList.remove('on');Som.tom(e.hz,2.4,.18);}
+document.getElementById('s-part').addEventListener('click',ev=>{if(!ev.target.closest('#gaveta')&&!ev.target.closest('.nomev'))document.getElementById('gaveta').classList.remove('on')});
+(function montaItens(){const c=document.getElementById('itens');ITENS.forEach((it,i)=>{const d=document.createElement('div');d.className='item';d.innerHTML=`<div class="num">${String(i+1).padStart(2,'0')}</div><div><div class="nm">${it[0]}</div><div class="fn">${it[1]}</div></div>`;c.appendChild(d)})})();
+(function montaParede(){const c=document.getElementById('parede');QUADROS.forEach(q=>{const d=document.createElement('div');d.className='quadro';d.style.background=q[2];d.innerHTML=`<div class="t-m">${q[0]}</div><div class="t-s">${q[1]}</div>`;c.appendChild(d)})})();
+(function montaMarcos(){const c=document.getElementById('linha');const ys=[230,140,170,110,150,70];MARCOS.forEach((m,i)=>{const d=document.createElement('div');d.className='marco'+(i===MARCOS.length-1?' final':'');d.style.left=(m[0]*100)+'%';d.style.top=`calc(${ys[i]/300*100}% - 6px)`;d.innerHTML=`<div class="ponto"></div><div class="q">${m[1]}</div><div class="o">${m[2]}</div>`;c.appendChild(d)})})();
+(function montaRoda(){const r=document.getElementById('roda');CICLO.forEach((c,i)=>{const a=-Math.PI/2+i*Math.PI/2;const d=document.createElement('div');d.className='no';d.style.left=(50+50*Math.cos(a))+'%';d.style.top=(50+50*Math.sin(a))+'%';d.innerHTML=`<div class="bola" style="background:${c[2]}"></div><div class="t-m">${c[0]}</div><div class="t-s">${c[1]}</div>`;r.appendChild(d)})})();
+(function montaVozesFim(){const s=document.getElementById('vozesfim');EIXOS.forEach((e,i)=>{const y0=40+i*72;const p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d',`M -20 ${y0} C 250 ${y0}, 380 300, 520 ${296+i}  S 820 ${300+(i-3.5)*6}, 1020 ${300+(i-3.5)*6}`);p.setAttribute('stroke',e.c);p.style.transitionDelay=(i*.25)+'s';s.appendChild(p)})})();
+(function preparaEscrita(){document.querySelectorAll('[data-escreve]').forEach(el=>{el.innerHTML=[...el.dataset.escreve].map(ch=>`<span class="letra">${ch===' '?'&nbsp;':ch}</span>`).join('')})})();
+
+/* ---------- SOM (Web Audio, tudo gerado no navegador) ---------- */
+const Som=(()=>{let ctx=null,mestre=null,mudo=false,amb=null,ambNome='',piano=null;const buf={};
+ function c(){if(!ctx){ctx=new (window.AudioContext||window.webkitAudioContext)();mestre=ctx.createGain();mestre.gain.value=.9;mestre.connect(ctx.destination)}if(ctx.state==='suspended')ctx.resume();return ctx}
+ function ruido(tipo){if(buf[tipo])return buf[tipo];const x=c(),n=x.sampleRate*4,b=x.createBuffer(2,n,x.sampleRate);for(let ch=0;ch<2;ch++){const d=b.getChannelData(ch);let l=0,b0=0,b1=0,b2=0;for(let i=0;i<n;i++){const w=Math.random()*2-1;if(tipo==='marrom'){l=(l+.02*w)/1.02;d[i]=l*3.5}else if(tipo==='rosa'){b0=.997*b0+w*.029591;b1=.985*b1+w*.032534;b2=.95*b2+w*.048056;d[i]=(b0+b1+b2+w*.1848)*.5}else d[i]=w}}return buf[tipo]=b}
+ function fonte(tipo){const s=c().createBufferSource();s.buffer=ruido(tipo);s.loop=true;s.start();return s}
+ function filtro(t,f,q){const x=c().createBiquadFilter();x.type=t;x.frequency.value=f;if(q)x.Q.value=q;return x}
+ function ganho(v){const g=c().createGain();g.gain.value=v;return g}
+ const AMB={
+  chuva(sai){const a=fonte('branco'),b=fonte('marrom');const fa=filtro('highpass',900),fb=filtro('lowpass',8000),ga=ganho(.05);a.connect(fa).connect(fb).connect(ga).connect(sai);const fl=filtro('lowpass',420),gb=ganho(.32);b.connect(fl).connect(gb).connect(sai);
+   const it=setInterval(()=>{for(let k=0;k<3;k++){const t=c().currentTime+Math.random()*.25;const s=c().createBufferSource();s.buffer=ruido('branco');const f=filtro('bandpass',1800+Math.random()*4000,6),g=ganho(0);s.connect(f).connect(g).connect(sai);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.06+Math.random()*.06,t+.003);g.gain.exponentialRampToValueAtTime(.0001,t+.05);s.start(t,Math.random()*3,.08)}},120);
+   return()=>{clearInterval(it);a.stop();b.stop()}},
+  escritorio(sai){const b=fonte('marrom'),w=fonte('branco');const f=filtro('lowpass',260),g=ganho(.34);b.connect(f).connect(g).connect(sai);const hw=filtro('highpass',6500),gw=ganho(.012);w.connect(hw).connect(gw).connect(sai);const o=c().createOscillator();o.frequency.value=120;const go=ganho(.012);o.connect(go).connect(sai);o.start();
+   const it=setInterval(()=>{if(Math.random()<.5)Som.tecla()},700);return()=>{clearInterval(it);b.stop();w.stop();o.stop()}},
+  vernissage(sai){const st=murmurio(sai,.22);const it=setInterval(()=>{if(Math.random()<.35)Som.taca()},2600);return()=>{clearInterval(it);st()}}
+ };
+ function murmurio(sai,vol){const r=fonte('rosa');const fs=[320,620,1100].map(f=>{const bp=filtro('bandpass',f,1.4),g=ganho(vol/3);r.connect(bp).connect(g).connect(sai);return g});const it=setInterval(()=>{fs.forEach(g=>g.gain.setTargetAtTime(vol/3*(.4+Math.random()*1.2),c().currentTime,.25))},300);return()=>{clearInterval(it);r.stop()}}
+ function ambiente(nome,fade=2.5){if(nome===ambNome)return;ambNome=nome;const x=c(),t=x.currentTime;if(amb){const v=amb;v.g.gain.cancelScheduledValues(t);v.g.gain.setValueAtTime(v.g.gain.value,t);v.g.gain.linearRampToValueAtTime(0,t+fade);setTimeout(()=>v.stop(),fade*1000+200)}amb=null;if(!nome||!AMB[nome])return;const g=ganho(0);g.connect(mestre);const stop=AMB[nome](g);g.gain.linearRampToValueAtTime(1,t+fade);amb={g,stop}}
+ function nota(f,t,dur=3.2,v=.16){const x=c();const sai=filtro('lowpass',2600);const g=ganho(0);sai.connect(g).connect(mestre);[[1,1],[2,.45],[3,.2],[4,.09]].forEach(([h,a])=>{const o=x.createOscillator();o.type='sine';o.frequency.value=f*h*(1+(Math.random()-.5)*.0015);const gh=ganho(a);o.connect(gh).connect(sai);o.start(t);o.stop(t+dur+.1)});g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.006);g.gain.exponentialRampToValueAtTime(v*.35,t+.5);g.gain.exponentialRampToValueAtTime(.0001,t+dur)}
+ function pianoLoop(on){if(piano){clearInterval(piano);piano=null}if(!on)return;const seq=[[220,.0],[329.63,.6],[392,1.2],[493.88,1.8],[440,2.6],[329.63,3.4],[174.61,4.4],[261.63,5.0],[329.63,5.6],[392,6.4],[349.23,7.2],[261.63,8.0]];const toca=()=>{const t=c().currentTime+.05;seq.forEach(([f,d])=>nota(f,t+d,3.6,.11));nota(110,t,6,.07);nota(87.31,t+4.4,6,.07)};toca();piano=setInterval(toca,9600)}
+ function rasga(){const x=c(),t=x.currentTime,s=x.createBufferSource();s.buffer=ruido('branco');const f=filtro('bandpass',900,1.2),g=ganho(0);s.connect(f).connect(g).connect(mestre);f.frequency.setValueAtTime(700,t);f.frequency.exponentialRampToValueAtTime(3200,t+1.1);for(let k=0;k<70;k++){g.gain.setValueAtTime((.15+Math.random()*.5)*(1-k/80),t+k*.016)}g.gain.setValueAtTime(0,t+1.15);s.start(t,0,1.2)}
+ function lapis(dur){const x=c(),t=x.currentTime,s=x.createBufferSource();s.buffer=ruido('branco');s.loop=true;const f=filtro('bandpass',4200,1.5),g=ganho(0);s.connect(f).connect(g).connect(mestre);for(let k=0;k<dur/.07;k++){g.gain.setValueAtTime(Math.random()<.75?.02+Math.random()*.05:0,t+k*.07)}g.gain.setValueAtTime(0,t+dur);s.start(t);s.stop(t+dur+.1)}
+ function sino(fs,v=.12){const x=c(),t=x.currentTime;fs.forEach((f,i)=>{[[1,1],[2.76,.4],[5.4,.15]].forEach(([h,a])=>{const o=x.createOscillator();o.frequency.value=f*h;const g=ganho(0);o.connect(g).connect(mestre);const t0=t+i*.45;g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v*a,t0+.004);g.gain.exponentialRampToValueAtTime(.0001,t0+2.2/h*1.5);o.start(t0);o.stop(t0+3)})})}
+ function batida(t0){const x=c(),o=x.createOscillator(),g=ganho(0);o.frequency.setValueAtTime(140,t0);o.frequency.exponentialRampToValueAtTime(55,t0+.12);o.connect(g).connect(mestre);g.gain.setValueAtTime(.35,t0);g.gain.exponentialRampToValueAtTime(.0001,t0+.25);o.start(t0);o.stop(t0+.3);const s=x.createBufferSource();s.buffer=ruido('branco');const f=filtro('bandpass',2500,2),gs=ganho(0);s.connect(f).connect(gs).connect(mestre);gs.gain.setValueAtTime(.18,t0);gs.gain.exponentialRampToValueAtTime(.0001,t0+.06);s.start(t0,0,.08)}
+ function tique(t0,v=.12){const s=c().createBufferSource();s.buffer=ruido('branco');const f=filtro('highpass',3000),g=ganho(0);s.connect(f).connect(g).connect(mestre);g.gain.setValueAtTime(v,t0);g.gain.exponentialRampToValueAtTime(.0001,t0+.025);s.start(t0,0,.03)}
+ function tom(f,dur=2.5,v=.14){const x=c(),t=x.currentTime;const lp=filtro('lowpass',1800),g=ganho(0);lp.connect(g).connect(mestre);[-4,4].forEach(dt=>{const o=x.createOscillator();o.type='triangle';o.frequency.value=f;o.detune.value=dt;o.connect(lp);o.start(t);o.stop(t+dur+.2)});g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.25);g.gain.exponentialRampToValueAtTime(.0001,t+dur)}
+ function taca(){const x=c(),t=x.currentTime;[2350,3720].forEach((f,i)=>{const o=x.createOscillator();o.frequency.value=f+Math.random()*80;const g=ganho(0);o.connect(g).connect(mestre);g.gain.setValueAtTime(.025/(i+1),t);g.gain.exponentialRampToValueAtTime(.0001,t+1.6);o.start(t);o.stop(t+1.7)})}
+ function tecla(){const t=c().currentTime;for(let k=0;k<1+Math.floor(Math.random()*4);k++)tique(t+k*.11,.03)}
+ function trilha(tipo){const x=c(),t=x.currentTime;const st=()=>{};
+  if(tipo==='aula'){const g=ganho(0);g.connect(mestre);const s=murmurio(g,.3);g.gain.linearRampToValueAtTime(1,t+.4);g.gain.linearRampToValueAtTime(0,t+2.6);setTimeout(s,2800);sino([659.25,523.25],.08)}
+  if(tipo==='loja'){sino([1318.5,1046.5],.07);const g=ganho(0);g.connect(mestre);const s=murmurio(g,.18);g.gain.linearRampToValueAtTime(1,t+.4);g.gain.linearRampToValueAtTime(0,t+2.4);setTimeout(s,2600)}
+  if(tipo==='obra'){[0,.42,.84,1.5,1.92].forEach(d=>batida(t+d))}
+  if(tipo==='consultorio'){for(let k=0;k<5;k++)tique(t+k*.9,.08);tom(196,3.5,.08)}}
+ function acorde(){EIXOS.forEach((e,i)=>setTimeout(()=>tom(e.hz/2,4,.07),i*60))}
+ function alterna(){mudo=!mudo;if(mestre)mestre.gain.setTargetAtTime(mudo?0:.9,c().currentTime,.2);return mudo}
+ return{c,ambiente,pianoLoop,rasga,lapis,sino,tom,taca,tecla,trilha,acorde,alterna}
+})();
+
+/* ---------- NAVEGACAO ---------- */
+const slides=[...document.querySelectorAll('.slide')];let idx=0,passo=0,notasWin=null,inicio=null;
+slides.forEach(s=>{const sc=s.querySelector('script[type="text/notas"]');s._notas=sc?sc.textContent.trim():'';});
+function aplica(s,p){const n=+s.dataset.steps||0;for(let k=1;k<=8;k++)s.classList.toggle('s'+k,k<=p);
+ s.querySelectorAll('[data-em]').forEach(el=>el.classList.toggle('vis',p>=+el.dataset.em));
+ if(s.id==='s-part')s.querySelectorAll('.voz').forEach(v=>v.classList.toggle('vis',+v.dataset.i<p));
+ if(s.id==='s-tela')s.querySelectorAll('.no').forEach((v,i)=>{v.classList.toggle('vis',p>=1);v.style.transitionDelay=(i*.5)+'s'});
+ if(s.id==='s-caixa')s.querySelectorAll('.item').forEach((v,i)=>{v.classList.toggle('vis',p>=1);v.style.transitionDelay=(1.6+i*.55)+'s'});
+ if(s.id==='s-abre'){const ls=s.querySelectorAll('.f1 .letra');ls.forEach((l,i)=>{clearTimeout(l._t);if(p>=3){l._t=setTimeout(()=>l.classList.add('vis'),i*85)}else l.classList.remove('vis')});s.querySelector('.f1').style.opacity=p>=4?.45:1;s.querySelector('.f2').style.opacity=p>=5?0:'';}
+}
+function entra(i,p){const ant=slides[idx];slides.forEach((s,k)=>s.classList.toggle('on',k===i));const s=slides[i];idx=i;passo=p;
+ if(ant!==s){document.getElementById('gaveta').classList.remove('on');
+  if(s.id==='s-mostra')s.querySelectorAll('.quadro').forEach((q,k)=>{q.classList.remove('vis');setTimeout(()=>q.classList.add('vis'),900+k*700)});
+  if(s.id==='s-crono'){s.querySelectorAll('.marco').forEach((m,k)=>{m.classList.remove('vis');setTimeout(()=>m.classList.add('vis'),700+k*800)});if(somAtivo)Som.lapis(5)}
+  if(ant&&ant.id==='s-fecho')paraVideo();
+  if(s.id!=='s-abre'&&s.id!=='s-fecho')Som.pianoLoop(false);
+ }
+ aplica(s,p);if(s.id==='s-fecho'){if(p===1)tocaVideo();else paraVideo()}somDoPasso(s,p);atualizaNotas();try{localStorage.setItem('pos-slide',JSON.stringify([idx,passo]))}catch(e){}
+}
+let somAtivo=false;
+function somDoPasso(s,p){if(!somAtivo)return;const amb=s.dataset.ambient||'';
+ if(s.id==='s-abre'){Som.ambiente(p>=1?'chuva':'',3.5);Som.pianoLoop(p>=2&&p<5);return}
+ if(s.id==='s-vira'){Som.pianoLoop(false);Som.ambiente(p>=1?'':'escritorio',p>=1?.4:2);if(p===1)Som.rasga();return}
+ if(s.id==='s-part'){Som.ambiente('');if(p>=1&&p<=8){Som.tom(EIXOS[p-1].hz,2.6,.14);if(p===8)setTimeout(Som.acorde,900)}return}
+ if(s.id==='s-caixa'&&p===1){Som.sino([392,587.33],.05)}
+ if(s.id==='s-fecho'){if(p===0){Som.ambiente('');Som.pianoLoop(false)}if(p===1){Som.ambiente('')}if(p===2){Som.ambiente('chuva',4);setTimeout(()=>{if(idx===slides.length-1&&passo===2)Som.pianoLoop(true)},2500)}return}
+ Som.ambiente(amb);
+}
+function tocaVideo(){const v=document.getElementById('video');if(v.querySelector('iframe'))return;const f=document.createElement('iframe');f.allow='autoplay; encrypted-media; fullscreen';f.src='https://www.youtube-nocookie.com/embed/lIJuk_EnT8M?start=395&autoplay=1&rel=0&modestbranding=1&playsinline=1';v.prepend(f)}
+function paraVideo(){const f=document.querySelector('#video iframe');if(f)f.remove()}
+function avanca(){if(!somAtivo){somAtivo=true;Som.c()}if(!inicio)inicio=Date.now();const s=slides[idx],n=+s.dataset.steps||0;if(passo<n)entra(idx,passo+1);else if(idx<slides.length-1)entra(idx+1,0)}
+function volta(){const s=slides[idx];if(passo>0)entra(idx,passo-1);else if(idx>0)entra(idx-1,+slides[idx-1].dataset.steps||0)}
+document.addEventListener('keydown',e=>{const k=e.key;
+ if(['ArrowRight','PageDown',' ','Enter'].includes(k)){e.preventDefault();avanca()}
+ else if(['ArrowLeft','PageUp','Backspace'].includes(k)){e.preventDefault();volta()}
+ else if(k==='n'||k==='N')abreNotas();
+ else if(k==='m'||k==='M'){const m=Som.alterna();const el=document.getElementById('som');el.textContent=m?'som desligado':'som ligado';el.classList.add('on');setTimeout(()=>el.classList.remove('on'),1400)}
+ else if(k==='f'||k==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{})}
+ else if(k==='p'||k==='P')document.getElementById('fernando').classList.toggle('on');
+ else if(k==='Escape')document.getElementById('fernando').classList.remove('on');
+ else if(k==='Home')entra(0,0);
+ else if(k==='c'||k==='C')document.body.classList.toggle('hide-cursor');
+});
+document.querySelectorAll('.jan').forEach(j=>j.addEventListener('click',()=>{if(!somAtivo){somAtivo=true;Som.c()}const ab=!j.classList.contains('aberta');j.classList.toggle('aberta');if(ab)Som.trilha(j.dataset.som)}));
+
+/* ---------- NOTAS DO APRESENTADOR (tecla N, abre em outra janela) ---------- */
+function abreNotas(){if(notasWin&&!notasWin.closed){notasWin.focus();return}notasWin=window.open('','notas_pos','width=560,height=820');if(!notasWin)return;
+ notasWin.document.write(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Notas</title><style>body{font-family:system-ui,sans-serif;background:#16120e;color:#efe6d6;padding:22px;line-height:1.55;font-size:15px}h2{font-weight:500;font-size:20px;margin:0 0 4px;color:#f3c77a}.meta{color:#a99;font-size:13px;margin-bottom:16px}.notas{white-space:pre-line}.prox{margin-top:18px;color:#a99;font-size:13px}.relogio{position:fixed;top:14px;right:18px;font-size:22px;color:#f3c77a}.cartao{margin-top:26px;padding-top:6px;color:#d8ccb8;font-size:13.5px}.cartao h3{color:#f3c77a;font-weight:500}b{color:#f3c77a;font-weight:600}.teclas{margin-top:20px;color:#887;font-size:12px}</style></head><body><div class="relogio" id="r">00:00</div><div id="c"></div><div class="cartao">${CARTAO}</div><div class="teclas">setas: avançar e voltar · N: notas · M: som · F: tela cheia · P: tela do Fernando · Home: recomeçar</div></body></html>`);
+ notasWin.document.close();atualizaNotas();}
+function atualizaNotas(){if(!notasWin||notasWin.closed)return;const s=slides[idx],n=+s.dataset.steps||0,prox=slides[idx+1];const el=notasWin.document.getElementById('c');if(!el)return;
+ el.innerHTML=`<h2>${idx+1}. ${s.dataset.titulo}</h2><div class="meta">passo ${passo} de ${n}</div><div class="notas">${s._notas}</div><div class="prox">Depois: ${passo<n?'próximo passo nesta tela':(prox?prox.dataset.titulo:'fim')}</div>`}
+setInterval(()=>{if(notasWin&&!notasWin.closed&&inicio){const r=notasWin.document.getElementById('r');if(r){const t=Math.floor((Date.now()-inicio)/1000);r.textContent=String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')}}},1000);
+
+entra(0,0);
+</script>
+</body>
+</html>
