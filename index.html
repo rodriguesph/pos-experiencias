@@ -190,6 +190,20 @@ body.hide-cursor,body.hide-cursor *{cursor:none!important}
 .junta td:last-child{text-align:right;white-space:nowrap}
 #som{position:fixed;right:24px;bottom:20px;z-index:80;font:500 12px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--osso3);opacity:0;transition:opacity .4s}
 #som.on{opacity:1}
+#gire{position:fixed;inset:0;z-index:95;display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:0 12vw;text-align:center;background:var(--noite);font:400 26px/1.25 var(--serif);color:var(--osso)}
+#gire small{font:400 14px/1.5 var(--sans);color:var(--osso2)}
+#gire .tel{width:34px;height:58px;border-radius:7px;box-shadow:inset 0 0 0 2px var(--ambar);animation:gira 2.4s ease-in-out infinite}
+@keyframes gira{0%,25%{transform:rotate(0)}55%,100%{transform:rotate(-90deg)}}
+@media (orientation:portrait) and (max-width:900px){#gire{display:flex}}
+html,body{touch-action:manipulation}
+@media (max-height:520px){
+ #soma,.chips,.item .fn,#mtSub{display:none}
+ .vz{bottom:3%}.vz-l .t{font-size:11px}.vz-l .n{font-size:15px}
+ .bt .ds,.dv .ds,.qd .wh,.pain .ct .w{font-size:11px;line-height:1.4}
+ .bt .pt{margin-bottom:1.6vh}.compasso{top:26%}
+ .kicker{font-size:9px}.t-s{font-size:12px}
+ .itens{top:8vh;bottom:6vh;gap:.6vh 2vw}.item .nm{font-size:13px}
+}
 #carrega{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;font:400 14px var(--sans);color:var(--osso3);letter-spacing:.2em;text-transform:uppercase;background:var(--noite);transition:opacity .8s}
 </style>
 </head>
@@ -448,6 +462,7 @@ body.hide-cursor,body.hide-cursor *{cursor:none!important}
 <div id="vinheta"></div>
 <canvas id="grao"></canvas>
 <div id="som"></div>
+<div id="gire"><div class="tel"></div>Vire o celular na horizontal.<small>Depois, toque no lado direito da tela para avançar e no esquerdo para voltar. Deslizar também funciona.</small></div>
 <div id="carrega">preparando</div>
 
 <script>
@@ -850,6 +865,13 @@ document.addEventListener('keydown',e=>{const k=e.key;
  else if(k==='Home')mostra(0,0);
  else if(k==='c'||k==='C')document.body.classList.toggle('hide-cursor');
 });
+/* toque: toque à direita avança, à esquerda volta; deslizar também funciona */
+let tq=null;
+document.addEventListener('touchstart',e=>{const t=e.changedTouches[0];tq={x:t.clientX,y:t.clientY,t:Date.now()}},{passive:true});
+document.addEventListener('touchend',e=>{if(!tq)return;const t=e.changedTouches[0],dx=t.clientX-tq.x,dy=t.clientY-tq.y,curto=Date.now()-tq.t<600;tq=null;
+ if(e.target.closest('.pain,#gaveta,.vz-l,a,#fernando'))return;
+ if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){dx<0?avanca():volta();return}
+ if(curto&&Math.abs(dx)<12&&Math.abs(dy)<12){t.clientX>innerWidth*.3?avanca():volta()}},{passive:true});
 let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{if(idx<0)return;slides.forEach(s=>CTX[s.id].revert());$$('#palco *').forEach(el=>{['_sl','_sm','_sc'].forEach(k=>{if(el[k]){el[k].revert();delete el[k]}})});divideTudo();monta(slides[idx],passo,true)},300)});
 
 /* ---------- NOTAS DO APRESENTADOR (tecla N) ---------- */
