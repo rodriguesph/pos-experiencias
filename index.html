@@ -84,10 +84,9 @@ body.hide-cursor,body.hide-cursor *{cursor:none!important}
 #trRod{position:absolute;left:0;bottom:0}
 
 /* santo amaro */
-#video{position:absolute;left:50%;top:57%;width:min(62vw,100vh);aspect-ratio:16/9;transform:translate(-50%,-50%);border-radius:3px;overflow:hidden;box-shadow:0 50px 140px rgba(0,0,0,.7);background:#000}
-#video iframe{width:100%;height:100%;border:0;display:block}
-#santoAlt{position:absolute;left:0;right:0;bottom:3.4vh;text-align:center;font-size:13px}
-#santoAlt a{color:var(--osso2)}
+#snc{position:absolute;inset:0;width:100%;height:100%}
+#santoAlt{position:absolute;left:0;right:0;bottom:5vh;text-align:center;font-size:14px;color:var(--ambar)}
+#santoQ{text-shadow:0 0 40px rgba(0,0,0,.9)}
 #santoQ{position:absolute;left:12vw;right:12vw;top:44vh;text-align:center}
 #santoC{margin:2.4vh auto 0;max-width:56ch}
 #santoHead{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
@@ -295,12 +294,13 @@ body.hide-cursor,body.hide-cursor *{cursor:none!important}
     <div class="t-l" id="snT" style="margin-top:1.8vh">Céu de Santo Amaro</div>
     <div class="t-s" id="santoC">Bach, Caetano Veloso, João Carlos Martins, Chitãozinho e Xororó no mesmo palco.</div>
   </div>
-  <div id="video"></div>
-  <div class="t-s" id="santoAlt">Se o vídeo não abrir: <a href="https://www.youtube.com/watch?v=lIJuk_EnT8M&t=395s" target="_blank" rel="noopener">abrir no YouTube em 6:35</a></div>
+  <canvas id="snc"></canvas>
+  <div class="t-s" id="santoAlt">Música não carregada. Aperte A e escolha o arquivo no computador.</div>
   <div class="t-l" id="santoQ">Quatro mundos que não deveriam se encontrar.<br><i>O que fez disso uma obra só?</i></div>
   <script type="text/notas">
+  <b>Antes da reunião:</b> aperte A em qualquer tela e escolha o arquivo da música no computador (ou arraste o arquivo para a página). Aparece "música carregada". O arquivo não sai do seu computador.
   <b>Ao entrar:</b> "Antes de mostrar como o curso é montado, quero que vocês escutem uma coisa."
-  <b>Passo 1:</b> o vídeo começa em 6:35, quando todos cantam juntos. Deixe tocar. Puxe a conversa sobre o trecho que você escolheu.
+  <b>Passo 1:</b> a música entra no minuto marcado (6:35, quando todos cantam juntos) e as oito linhas dançam com o som. Deixe tocar. Puxe a conversa sobre o trecho que você escolheu.
   Se lembrarem: a melodia do piano da abertura era essa mesma, Bach.
   <b>Passo 2:</b> o vídeo sai e fica a pergunta. Ouça as respostas. A ponte: "O curso é isso. Oito vozes diferentes."
   </script>
@@ -604,7 +604,7 @@ const Som=(()=>{let x=null,mestre,revIn,mudo=false,amb=null,ambNome='',pBus=null
  function tempos(){c();[55,59,62,67].forEach((m,i)=>piano(mf(m),x.currentTime+.05+i*.8,.08,2.5))}
  function passagem(){if(x)sopro(x.currentTime,.9,.03)}
  function alterna(){mudo=!mudo;if(mestre)mestre.gain.setTargetAtTime(mudo?0:.9,x.currentTime,.2);return mudo}
- return{c,ambiente,pianoLoop,rasga,sino,taca,trilha,clunk,papel,digita,nota,acorde,tempos,passagem,alterna,get pronto(){return!!x}}
+ return{c,saidaMestre:()=>mestre,ambiente,pianoLoop,rasga,sino,taca,trilha,clunk,papel,digita,nota,acorde,tempos,passagem,alterna,get pronto(){return!!x}}
 })();
 
 /* ---------- GRÃO, LUZ E POEIRA ---------- */
@@ -712,8 +712,35 @@ function preparaCaixa(){if(CX.feito)return;CX.feito=true;const cv=document.creat
 function preparaMostra(){if(preparaMostra.feito)return;preparaMostra.feito=true;$$('.qd canvas').forEach((cv,i)=>{cv.width=480;cv.height=360;arte(cv,QUADROS[i][2])})}
 
 /* ---------- VÍDEO ---------- */
-function tocaVideo(){const v=$('#video');if(v.querySelector('iframe'))return;const f=document.createElement('iframe');f.allow='autoplay; encrypted-media; fullscreen';f.src='https://www.youtube-nocookie.com/embed/lIJuk_EnT8M?start=395&autoplay=1&rel=0&modestbranding=1&playsinline=1';v.appendChild(f)}
-function paraVideo(){const f=$('#video iframe');if(f)f.remove()}
+/* ---------- MÚSICA DO ARQUIVO LOCAL (tecla A) ---------- */
+function aviso(t){const el=$('#som');el.textContent=t;el.classList.add('on');clearTimeout(aviso._t);aviso._t=setTimeout(()=>el.classList.remove('on'),3200)}
+const MUS=(()=>{const el=new Audio();el.preload='auto';let ok=false,src=null,an=null,g=null,dados=null,parada=null;
+ const h=(location.hash.match(/inicio=(\d+)(?::(\d+))?/)||[]);let inicio=h[1]?(h[2]!==undefined?(+h[1])*60+(+h[2]):+h[1]):395;
+ const inp=document.createElement('input');inp.type='file';inp.accept='audio/*';inp.style.display='none';document.body.appendChild(inp);
+ inp.addEventListener('change',()=>{if(inp.files[0])carregar(inp.files[0])});
+ function carregar(f){el.src=URL.createObjectURL(f);ok=true;el.load();aviso('música carregada: '+f.name.slice(0,40));gsap.to('#santoAlt',{autoAlpha:0,duration:.4})}
+ function liga(){ativaSom();if(src)return;const x=Som.c();src=x.createMediaElementSource(el);an=x.createAnalyser();an.fftSize=2048;an.smoothingTimeConstant=.78;g=x.createGain();g.gain.value=0;src.connect(an);src.connect(g).connect(Som.saidaMestre());dados=new Uint8Array(an.frequencyBinCount)}
+ function tocar(){if(!ok)return false;liga();clearTimeout(parada);const x=Som.c(),t=x.currentTime;Som.ambiente('',1);Som.pianoLoop(false);try{el.currentTime=inicio}catch(e){}g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(1,t+1.2);el.play().catch(()=>aviso('clique na página e aperte a seta de novo'));return true}
+ function parar(f=2){if(!src){el.pause();return}const x=Som.c(),t=x.currentTime;clearTimeout(parada);g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(g.gain.value,t);g.gain.linearRampToValueAtTime(0,t+Math.max(.05,f));parada=setTimeout(()=>el.pause(),f*1000+120)}
+ function bandas(n){if(!an||el.paused)return null;an.getByteFrequencyData(dados);const sr=Som.c().sampleRate,N=dados.length,out=[];for(let i=0;i<n;i++){const f0=70*Math.pow(8000/70,i/n),f1=70*Math.pow(8000/70,(i+1)/n);const b0=Math.floor(f0/(sr/2)*N),b1=Math.max(b0+1,Math.floor(f1/(sr/2)*N));let s=0;for(let k=b0;k<b1;k++)s+=dados[k];out.push(s/(b1-b0)/255)}return out}
+ return{escolher:()=>inp.click(),carregar,tocar,parar,bandas,get ok(){return ok}}})();
+document.addEventListener('dragover',e=>e.preventDefault());
+document.addEventListener('drop',e=>{e.preventDefault();const f=[...e.dataTransfer.files].find(f=>f.type.startsWith('audio')||/\.(mp3|m4a|wav|aac|flac|ogg)$/i.test(f.name));if(f)MUS.carregar(f)});
+
+/* ---------- AS OITO VOZES DANÇANDO COM A MÚSICA ---------- */
+const SN={a:.18,on:false,s:EIXOS.map(()=>.12),ph:EIXOS.map((_,i)=>i*1.3),h:0,
+ liga(){if(!this.on){this.on=true;gsap.ticker.add(snTick)}},desliga(){this.on=false;gsap.ticker.remove(snTick)}};
+function snTick(t,dt){const cv=$('#snc'),g=cv.getContext('2d'),d=Math.min(devicePixelRatio||1,2),W=innerWidth,H=innerHeight;
+ if(cv.width!==Math.round(W*d)){cv.width=Math.round(W*d);cv.height=Math.round(H*d)}g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,W,H);
+ const s=Math.min(dt/1000,.05),b=MUS.bandas(8);let tot=0;
+ for(let i=0;i<8;i++){const alvo=b?Math.min(1,Math.pow(b[i],1.6)*1.7):.12+.06*Math.sin(t*.7+i);SN.s[i]+=(alvo-SN.s[i])*(alvo>SN.s[i]?.35:.08);tot+=SN.s[i]}
+ const m=tot/8;SN.h+=((b?Math.min(1,Math.max(0,(m-.28)*3.2)):0)-SN.h)*.03;
+ const top=H*.2,gap=(H*.6)/7;g.globalCompositeOperation='lighter';
+ for(let i=0;i<8;i++){const y0=top+gap*i,e=SN.s[i];SN.ph[i]+=s*(.9+e*4.5);const A=gap*(.18+e*1.15)*SN.a;
+  const kI=1.6+i*.55,kk=(kI+(2.4-kI)*SN.h)*2*Math.PI/W,ph=SN.ph[i]*(1-SN.h)+SN.ph[0]*SN.h;
+  [[10,.07],[3.5,.2],[1.7,.95]].forEach(([lw,al])=>{g.lineWidth=lw*(1+e*.8);g.strokeStyle=COR[i];g.globalAlpha=Math.min(1,al*SN.a*(.55+e*1.2));g.beginPath();
+   for(let x=0;x<=W;x+=5){const env=Math.pow(Math.sin(Math.PI*x/W),.8);const y=y0+A*env*Math.sin(kk*x-ph)+A*.25*env*Math.sin(kk*2.3*x+ph*1.7);x?g.lineTo(x,y):g.moveTo(x,y)}g.stroke()})}
+ g.globalAlpha=1;g.globalCompositeOperation='source-over'}
 
 /* ---------- CONTROLE DE CADA TELA ---------- */
 let somAtivo=false;
@@ -747,13 +774,13 @@ const CT={
    escondeL($('#trK'));escondeL($('#trT'));gsap.set('.pain',{autoAlpha:0,y:60});gsap.set('#trRod',{autoAlpha:0})},
   enter(r){const tl=gsap.timeline();tl.add(mostraL($('#trK')),.2).add(mostraL($('#trT')),.35).to('.pain',{autoAlpha:1,y:0,duration:1.6,stagger:.13,ease:'expo.out'},.6).to('#trRod',{autoAlpha:1,duration:1.2},1.6);if(r)tl.progress(1)}},
  santo:{vis:{poeira:0,leak:['#1a2846','#3a2216']},
-  init(){paraVideo();escondeL($('#snK'));escondeL($('#snT'));gsap.set('#santoC',{autoAlpha:0});gsap.set('#santoHead',{opacity:1});gsap.set('#video',{autoAlpha:0,scale:.95});gsap.set('#santoAlt',{autoAlpha:0});escondeL($('#santoQ'))},
+  init(){MUS.parar(0);SN.a=.18;SN.liga();escondeL($('#snK'));escondeL($('#snT'));gsap.set('#santoC',{autoAlpha:0});gsap.set('#santoHead',{opacity:1});gsap.set('#santoAlt',{autoAlpha:0});escondeL($('#santoQ'))},
   enter(r){const tl=gsap.timeline();tl.add(mostraL($('#snK')),.2).add(mostraL($('#snT'),1.5),.35).to('#santoC',{autoAlpha:1,duration:1.2},1);if(r)tl.progress(1)},
   step(p,r){const tl=gsap.timeline();
-   if(p===1){tocaVideo();tl.to('#santoHead',{opacity:0,duration:.8}).to('#video',{autoAlpha:1,scale:1,duration:1.6,ease:'expo.out'},0).to('#santoAlt',{autoAlpha:1,duration:1},1)}
-   if(p===2)tl.to('#video',{autoAlpha:0,scale:.97,duration:1,onComplete:paraVideo}).to(['#santoAlt','#santoHead'],{autoAlpha:0,duration:.8},0).add(mostraL($('#santoQ'),1.5),.8);
+   if(p===1){const ok=MUS.tocar();tl.to('#santoHead',{autoAlpha:0,duration:1.2}).to(SN,{a:1,duration:2.5,ease:'sine.inOut'},.3);if(!ok)tl.to('#santoAlt',{autoAlpha:1,duration:.8},.5)}
+   if(p===2){MUS.parar(3.5);tl.to(SN,{a:.14,duration:3.5,ease:'sine.inOut'}).to(['#santoAlt','#santoHead'],{autoAlpha:0,duration:.8},0).add(mostraL($('#santoQ'),1.5),1.2)}
    if(r)tl.progress(1)},
-  leave(){paraVideo()}},
+  leave(){MUS.parar(1.5);SN.desliga()}},
  vozes:{vis:{poeira:0,leak:['#2a1f3e','#122a2e']},
   init(){VZ.reset();VZ.liga();escondeL($('#vzK'));escondeL($('#vzT'));gsap.set('.vz-l',{opacity:.2});gsap.set('#soma > div',{autoAlpha:0,y:14});fechaGaveta(true)},
   enter(r){const tl=gsap.timeline();tl.add(mostraL($('#vzK')),.2).add(mostraL($('#vzT')),.35);if(r)tl.progress(1)},
@@ -810,6 +837,7 @@ document.addEventListener('keydown',e=>{const k=e.key;
  if(['ArrowRight','PageDown',' ','Enter'].includes(k)){e.preventDefault();avanca()}
  else if(['ArrowLeft','PageUp','Backspace'].includes(k)){e.preventDefault();volta()}
  else if(k==='n'||k==='N')abreNotas();
+ else if(k==='a'||k==='A'){ativaSom();MUS.escolher()}
  else if(k==='m'||k==='M'){ativaSom();const m=Som.alterna();const el=$('#som');el.textContent=m?'som desligado':'som ligado';el.classList.add('on');setTimeout(()=>el.classList.remove('on'),1400)}
  else if(k==='f'||k==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{})}
  else if(k==='p'||k==='P')$('#fernando').classList.toggle('on');
@@ -817,7 +845,7 @@ document.addEventListener('keydown',e=>{const k=e.key;
  else if(k==='Home')mostra(0,0);
  else if(k==='c'||k==='C')document.body.classList.toggle('hide-cursor');
 });
-let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{if(idx<0)return;TR.feito=false;$$('[data-c]').forEach(()=>{});monta(slides[idx],passo,true)},300)});
+let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{if(idx<0)return;slides.forEach(s=>CTX[s.id].revert());$$('#palco *').forEach(el=>{['_sl','_sm','_sc'].forEach(k=>{if(el[k]){el[k].revert();delete el[k]}})});divideTudo();monta(slides[idx],passo,true)},300)});
 
 /* ---------- NOTAS DO APRESENTADOR (tecla N) ---------- */
 function abreNotas(){if(notasWin&&!notasWin.closed){notasWin.focus();return}notasWin=window.open('','notas_pos','width=560,height=820');if(!notasWin)return;
